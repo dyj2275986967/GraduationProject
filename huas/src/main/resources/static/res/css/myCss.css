@@ -1,0 +1,56 @@
+
+.mymarginWithNav{
+	margin-top:45px;
+	
+}
+.mymarginTop{
+	
+	margin-top:5px;
+	
+	
+	
+}
+
+  
+  .mymarginDetial{
+	
+	margin-top:80px;
+	
+	
+	
+}
+.mymarginLogin{
+	margin-top:80px;
+	
+	
+}
+  .search-input{
+     float:left;
+	 border:2px solid 	#78a7a8;
+	 width:400px;
+	 height:35px;
+	 padding:5px;
+	 margin-top:15px;
+   }
+      .search-btn{
+        float:left;
+		width:90px;
+	    height:35px;
+	   border:1px solid 	#78a7a8;
+       background-color:		#78a7a8;
+	   text-align:center;
+	   line-height:35px;
+	    margin-top:15px;
+   }
+      .jx{
+    border-bottom:2px solid	#78a7a8;
+     padding-top:50px;
+ 
+   }
+    .company{
+    height:40px;
+	background-color:#7CCD7C;
+     text-align:center;
+  line-height:40px;
+  
+    }
