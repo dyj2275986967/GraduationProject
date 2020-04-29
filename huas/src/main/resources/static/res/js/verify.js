@@ -1,7 +1,9 @@
 /*! Verify-v0.1.0 MIT License by 大熊*/
 
 
-;(function($, window, document,undefined) {
+(function($, window, document,undefined) {
+ var host="http://localhost:8080";	
+	
 	
 	//定义Code的构造函数
     var Code = function(ele, opt) {
@@ -251,7 +253,7 @@
         	
         	this.htmlDoms.gap.css({'width': this.options.blockSize.width, 'height': this.options.blockSize.height});
         	this.htmlDoms.sub_block.css({'width': this.options.blockSize.width, 'height': this.options.blockSize.height});
-        	this.htmlDoms.img_panel.css({'width': this.setSize.img_width, 'height': this.setSize.img_height, 'background': 'url(res/img/loginImg/'+this.options.imgName[this.img_rand]+')', 'background-size' : this.setSize.img_width + ' '+ this.setSize.img_height});
+        	this.htmlDoms.img_panel.css({'width': this.setSize.img_width, 'height': this.setSize.img_height, 'background': 'url('+host+'/res/img/loginImg/'+this.options.imgName[this.img_rand]+')', 'background-size' : this.setSize.img_width + ' '+ this.setSize.img_height});
         	this.htmlDoms.bar_area.css({'width': this.setSize.bar_width, 'height': this.options.barSize.height, 'line-height':this.options.barSize.height});
         	this.htmlDoms.move_block.css({'width': this.options.barSize.height, 'height': this.options.barSize.height});
         	this.htmlDoms.left_bar.css({'width': this.options.barSize.height, 'height': this.options.barSize.height});
@@ -438,15 +440,15 @@
         	
         	this.$element.find('.verify-img-panel').css('margin-bottom', this.options.vSpace + 'px');
         	this.$element.find('.verify-gap').css({'top': top, 'left': left});
-          	this.$element.find('.verify-sub-block').css({'top':'-'+(parseInt(this.setSize.img_height)- top + this.options.vSpace + 2)+'px', 'background-image': 'url(res/img/loginImg/'+this.options.imgName[this.img_rand]+')', 'background-size': this.setSize.img_width + ' '+ this.setSize.img_height,'background-position-y': '-'+top+ 'px', 'background-position-x': '-'+left+'px'});
+          	this.$element.find('.verify-sub-block').css({'top':'-'+(parseInt(this.setSize.img_height)- top + this.options.vSpace + 2)+'px', 'background-image': 'url('+host+'/res/img/loginImg/'+this.options.imgName[this.img_rand]+')', 'background-size': this.setSize.img_width + ' '+ this.setSize.img_height,'background-position-y': '-'+top+ 'px', 'background-position-x': '-'+left+'px'});
         },
         
         //刷新
         refresh: function() {
         	this.randSet();
         	this.img_rand = Math.floor(Math.random() * this.options.imgName.length);			//随机的背景图片
-            this.$element.find('.verify-img-panel').css({'background': 'url(res/img/loginImg/'+this.options.imgName[this.img_rand]+')', 'background-size': this.setSize.img_width + ' '+ this.setSize.img_height});
-            this.$element.find('.verify-sub-block').css({'background-image': 'url(res/img/loginImg/'+this.options.imgName[this.img_rand]+')', 'background-size': this.setSize.img_width + ' '+ this.setSize.img_height});
+            this.$element.find('.verify-img-panel').css({'background': 'url('+host+'/res/img/loginImg/'+this.options.imgName[this.img_rand]+')', 'background-size': this.setSize.img_width + ' '+ this.setSize.img_height});
+            this.$element.find('.verify-sub-block').css({'background-image': 'url('+host+'/res/img/loginImg/'+this.options.imgName[this.img_rand]+')', 'background-size': this.setSize.img_width + ' '+ this.setSize.img_height});
         },
         
         //获取left值
@@ -700,7 +702,7 @@
         	
         	this.img_rand = Math.floor(Math.random() * this.options.imgName.length);			//随机的背景图片
         	var img = new Image();
-		    img.src = 'res/img/loginImg/'+this.options.imgName[this.img_rand];
+		    img.src = '${ctx}/res/img/loginImg/'+this.options.imgName[this.img_rand];
 		 	
 		 	
 		 	// 加载完成开始绘制

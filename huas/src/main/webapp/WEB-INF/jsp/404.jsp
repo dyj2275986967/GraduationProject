@@ -7,9 +7,11 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>页面丢失</title>
+<title>error</title>
+<!--springboot改图标-->
+<link href="${ctx }/res/img/favicon.ico"  type="image/x-icon" rel="icon">
 <style>
-*{margin:0;padding:0;outline:none;font-family:\5FAE\8F6F\96C5\9ED1,宋体;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;-khtml-user-select:none;user-select:none;cursor:default;font-weight:lighter;}
+*{margin:0;padding:0;outline:none;font-family:\5FAE\8F6F\96C5\9ED1,å®ä½;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;-khtml-user-select:none;user-select:none;cursor:default;font-weight:lighter;}
 .center{margin:0 auto;}
 .whole{width:100%;height:100%;line-height:100%;position:fixed;bottom:0;left:0;z-index:-1000;overflow:hidden;}
 .whole img{width:100%;height:100%;}
@@ -18,6 +20,7 @@
 p{color:#fff;margin-top:40px;font-size:24px; line-height:56px;}
 #num{margin:0 5px;font-weight:bold;}
 </style>
+
 <script type="text/javascript">
 	var num=6;
 	function redirect(){
@@ -34,14 +37,16 @@ p{color:#fff;margin-top:40px;font-size:24px; line-height:56px;}
 
 <body onLoad="redirect();">
 <div class="whole">
-	<img src="${ctx }/rex/img/errorPageImg/back.jpg" />
+
+	<img src="${ctx}/res/img/errorPageImg/back.jpg" />
     <div class="mask"></div>
 </div>
 <div class="b">
-		<img src="${ctx }/rex/img/errorPageImg/404.png" class="center"/>
-		<p>
-			暂时未能找到您查找的页面<br>
-			可能输入的网址错误或此页面不存在<br>
+<span class="center"  style="font-size:100px;color:white;font-weightï¼bold">404</span>
+		
+	  <p>
+			 页面飞走啦
+			 <br>
             <span id="num"></span>秒后自动跳转到主页
 		</p>
 	</div>

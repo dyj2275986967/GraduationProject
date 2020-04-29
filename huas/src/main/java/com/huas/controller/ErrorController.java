@@ -21,5 +21,15 @@ public class ErrorController {
 		
 	}
 	
+	@RequestMapping(value = "/404")
+	public String error404(){
+		
+		
+		
+		
+		return "404";
+		
+	}
+	
 	
 }

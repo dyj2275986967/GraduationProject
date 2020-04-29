@@ -166,12 +166,12 @@ $("#tab tr").dblclick(function(){
 								<li class="dropdown"><a href="#" class="dropdown-toggle"
 									data-toggle="dropdown" role="button" aria-haspopup="true"
 									aria-expanded="false"> <img
-										src="${ctx }/res/img/UserImg/${session_user.img}" height="22"
+										src="/image/${session_user.img}" height="22"
 										width="22" class="img-circle "><span class="caret"></span></a>
 									<ul class="dropdown-menu">
 										<li><a href="${ctx }/user/manager/index">个人中心</a></li>
 										<li role="separator" class="divider"></li>
-										<li><a href="#">放松一下</a></li>
+										<li><a  href="${ctx }/user/manager/music" target="_Blank">放松一下</a></li>
 										<li role="separator" class="divider"></li>
 										<li><a href="${ctx }/user/loginOut">退出</a></li>
 									</ul></li>

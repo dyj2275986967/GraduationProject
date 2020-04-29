@@ -57,11 +57,12 @@
 							//服务器响应成功时候的回调函数
 							success : function(result) {
 
+								
 								//为Select追加一个Option(下拉项) 
                                 var dataArray= JSON.parse(result);
 								depMsg = dataArray.msg;
 								gradeClassMsg = dataArray.gradeClassmsg;
-								
+								// console.log(depMsg);
 								//显示所有的院系信息   
 								for (var i = 0; i < depMsg.length; i++) {
 									//添加模态框
@@ -70,6 +71,7 @@
 													+ depMsg[i].depName
 													+ "</option>");
 									//条件搜索模态框 
+									 
 									$("#search_condition_dep").append(
 											"<option value='"+depMsg[i].majors[0].university.depId+"'>"
 													+ depMsg[i].depName
@@ -94,6 +96,7 @@
 									//条件搜索模态框 初始化页面时 都默认是不选择  所以 不用拼装 专业信息
 									//  $("#search_condition_major").append("<option value='"+depMsg[0].majors[i].clazzs[i].major.majorId+"'>"+depMsg[0].majors[i].majorName+"</option>");  
 									//修改模态框
+									console.log(depMsg[0].majors[i].clazzs[i]);
 									$("#select_updata_major_id")
 											.append(
 													"<option value='"+depMsg[0].majors[i].clazzs[i].major.majorId+"'>"
@@ -821,9 +824,7 @@
 			$("#select_updata_grade_clazz_id").trigger("change")
 	
 			
-      		$("#select_updata_clazz_id").find(test).attr("selected", true);
-			$("#select_updata_clazz_id").trigger("change")
-			
+      				
 			
 			
 			//	$("#select_updata_dep_id").val("数理学院");
@@ -983,12 +984,12 @@
 								<li class="dropdown"><a href="#" class="dropdown-toggle"
 									data-toggle="dropdown" role="button" aria-haspopup="true"
 									aria-expanded="false"> <img
-										src="${ctx }/res/img/UserImg/${session_user.img}" height="22"
+										src="/image/${session_user.img}" height="22"
 										width="22" class="img-circle "><span class="caret"></span></a>
 									<ul class="dropdown-menu">
 										<li><a href="${ctx }/user/manager/index">个人中心</a></li>
 										<li role="separator" class="divider"></li>
-										<li><a href="#">放松一下</a></li>
+										<li><a  href="${ctx }/user/manager/music" target="_Blank">放松一下</a></li>
 										<li role="separator" class="divider"></li>
 										<li><a href="${ctx }/user/loginOut">退出</a></li>
 									</ul></li>
@@ -1084,7 +1085,7 @@
 
 				<div class="col-md-3" style="margin-left: 150px;">
 
-
+                <!-- /student/msg/stuMsg_To_Lead- -->
 					<form id="QueryForm" action="${ctx}/student/msg/stuMsg_To_Lead"
 						method="post" enctype="multipart/form-data">
 						<div class="row">

@@ -41,6 +41,7 @@ public class User {
 	private Integer level;
 	//用户的管理者 :该用户是谁创建的
 	private Integer manageId;
+	private String managerName;
 	private Integer dep;
 	
 

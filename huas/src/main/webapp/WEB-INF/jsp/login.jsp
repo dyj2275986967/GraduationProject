@@ -15,7 +15,7 @@
 
 <!-- Bootstrap -->
 <!--springboot改图标-->
-<link href="${ctx }/res/img/favicon.ico"  type="image/x-icon" rel="icon">
+<link href="${ctx }/res/img/favicon.ico" type="image/x-icon" rel="icon">
 <link href="${ctx }/res/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet">
 
@@ -126,23 +126,249 @@
 					  
 					  
 				  }
-				  
-				  
-			 
-				 
-				   
 
 			  })   
-			 
-		
-		
-		
-		
-		
-		
-		
+//邮件短信校验开始
 
+//邮箱手机号校验开始
+
+
+        var emailPhonestand=false;
+		　var emailStandard =/^([1-9][0-9]{4,}\@qq\.com)|((\w+((-\w+)|(\.\w+))*)\+\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+)$/;
+			var phoneStandard = /^1[3456789]\d{9}$/;
+		
+		
+$("#emailPhone").blur(function(){
+		if (!this.value) {
+
+			$("#emailPhoneTips").text("*请输入邮箱号或手机号");
+			
+			//输入的校验方式 不等于手机号格式并且不等于邮箱格式
+	 	} else if (!phoneStandard.test(this.value)&&!emailStandard.test(this.value)) {
+	    	$("#emailPhoneTips").html ("*请输入正确的邮箱号或者手机号");
+		
+		}else{
+			
+			emailPhonestand=true;
+		}	
+	
+	
+	
+}).focus(function (){
+	
+	$("#emailPhoneTips").text("");
+	
+	
+})
+
+//倒计时
+
+   var wait =60;
+    function time(o) {
+        if (wait == 0) {
+            o.removeAttribute("disabled");
+            o.value = "发送";
+            wait = 60;
+   //如果时间过完 销毁session里的验证码
+	//发短信
+	var check="";
+	//邮箱或者手机
+   var emailPhone=$("#emailPhone").val()
+	if(phoneStandard.test(emailPhone)){
+		check="2";
+	//发邮箱	
+	}else{
+		
+		check="1";
+	
+	}
+	
+	 $.ajax({
+		   //指定请求地址的url
+		   url:"${ctx}/user/api/destroy",
+	      //指定
+		   type:"post",
+		   data:"check="+check,
+		  //预期服务器返回的数据类型
+		   dateType:"text",
+		   //服务器响应成功时候的回调函数
+		   success:function(result){
+            
+           //    alert(result);
+	    			
+	    		},error:function(xhr, textStatus, err){//服务器响应失败时候的回调函数
+ 	    			alert(xhr);
+	    			alert(textStatus);
+	    			alert(err)
+	    			
+			   
+		   }
+		  	   
+	   })
+	
+
+  
+
+        } else {
+            o.setAttribute("disabled", true);
+            o.value = "重新获取(" + wait + ")";
+            wait--;
+            setTimeout(function() {
+                time(o);
+            }, 1000);
+        };
+    }
+    document.getElementById("btn").onclick = function() {
+      
+           var value=$("#emailPhone").val();
+           
+           if(!value){
+        	   $("#emailPhoneTips").html ("*请输入正确的邮箱号或者手机号"); 
+           }
+           
+           
+           
+          //置空验证码
+          $("#yzm").val("");
+        //如果校验成功
+        if(emailPhonestand){
+        	
+        	//发短信
+        	if(phoneStandard.test(value)){
+        		
+        		
+        		 $.ajax({
+					   //指定请求地址的url
+					   url:"${ctx}/user/api/sendPhone",
+				      //指定
+					   type:"post",
+					   data:"phone="+value,
+					  //预期服务器返回的数据类型
+					   dateType:"text",
+					   //服务器响应成功时候的回调函数
+					   success:function(result){
+		                 
+		                //    alert(result);
+				    			
+				    		},error:function(xhr, textStatus, err){//服务器响应失败时候的回调函数
+			  	    			alert(xhr);
+				    			alert(textStatus);
+				    			alert(err)
+				    			
+						   
+					   }
+					  	   
+				   })
+        		
+        
+        	//发邮箱	
+        	}else{
+        	
+        	
+        		 $.ajax({
+					   //指定请求地址的url
+					   url:"${ctx}/user/api/sendEmail",
+				      //指定
+					   type:"post",
+					   data:"email="+value,
+					  //预期服务器返回的数据类型
+					   dateType:"text",
+					   //服务器响应成功时候的回调函数
+					   success:function(result){
+		                 
+		                //    alert(result);
+				    			
+				    		},error:function(xhr, textStatus, err){//服务器响应失败时候的回调函数
+			  	    			alert(xhr);
+				    			alert(textStatus);
+				    			alert(err)
+				    			
+						   
+					   }
+					  	   
+				   })
+				  
+        	
+        	}
+        	
+        	
+        	time(this);	
+        	
+        }
+
+          
+    };
+//登陆开始
+$("#yzBtn").click(function(){
+	  //邮箱或者手机
+	   var emailPhone=$("#emailPhone").val()
+	   //验证码
+	    var yzm=$("#yzm").val()
+	var check="";
+	  //手机
+	if(phoneStandard.test(emailPhone)){
+		check="2";
+	//发邮箱	
+	}else{
+		
+		check="1";
+	
+	}
+ 
+	 $.ajax({
+		   //指定请求地址的url
+		   url:"${ctx}/user/api/yzLogin",
+	      //指定
+		   type:"post",
+		   data:"check="+check+"&emailOrPhone="+emailPhone+"&yzm="+yzm,
+		  //预期服务器返回的数据类型
+		   dateType:"text",
+		   //服务器响应成功时候的回调函数
+		   success:function(result){
+                if(result=="登陆成功"){
+                	
+                	window.location = "${ctx}/student/msg/list";
+                }else{
+                	$("#emailOrPhoneTip").text("*"+result);
+                	
+                }
+           
+	    			
+	    		},error:function(xhr, textStatus, err){//服务器响应失败时候的回调函数
+ 	    			alert(xhr);
+	    			alert(textStatus);
+	    			alert(err)
+	    			
+			   
+		   }
+		  	   
+	   })
+	
+	
+	
+	
+})
+
+
+//进入忘记密码的界面
+$("#forgetT").click(function(){
+	
+	
+	window.location="${ctx}/user/createPwd";
+	
+})
+$("#forgetO").click(function(){
+	
+	
+	window.location="${ctx}/user/createPwd";
+	
+})
+
+		
+		
 	})
+
+	
 </script>
 
 
@@ -303,7 +529,7 @@
 
 									</div>
 
-							
+
 									<div class="form-group">
 										<div class="col-sm-8">
 											<div class="btn-group btn-group-justified" role="group"
@@ -315,7 +541,7 @@
 													</button>
 												</div>
 												<div class="btn-group" role="group">
-													<button type="button" class="btn btn btn-danger">
+													<button id="forgetO" type="button" class="btn btn btn-danger">
 														<span class="glyphicon glyphicon-edit"></span>忘记密码
 													</button>
 												</div>
@@ -337,13 +563,14 @@
 									<div class="form-group">
 										<div class="col-sm-8">
 											<input class="form-control" value="" placeholder="手机号/邮箱"
-												type="text" id="loginName" name="loginName" />
+												type="text" id="emailPhone" name="loginName" />
 										</div>
 
 									</div>
 									<div class="form-group" style="margin-top: -20px;">
 										<div class="col-sm-8">
-											<span id="loginTip" style="font-size: 12px; color: #F66495;">*账号不存在呢！</span>
+											<span id="emailPhoneTips"
+												style="font-size: 12px; color: #F66495;"></span>
 										</div>
 
 									</div>
@@ -355,9 +582,10 @@
 									<div class="form-group">
 										<div class="col-sm-8">
 											<div class="input-group">
-												<input type="text" class="form-control" placeholder="请输入验证码">
-												<span class="input-group-btn">
-													<button class="btn btn-default" type="button">发送</button>
+												<input type="text" id="yzm" class="form-control"
+													placeholder="请输入验证码"> <span class="input-group-btn">
+													<input id="btn" class="btn btn-default" type="button"
+													value="发送">
 												</span>
 											</div>
 											<!-- /input-group -->
@@ -366,8 +594,8 @@
 
 									<div class="form-group" style="margin-top: -20px;">
 										<div class="col-sm-8">
-											<span id="passwordTip"
-												style="font-size: 12px; color: #F66495;">*您的密码呢？</span>
+											<span id="emailOrPhoneTip"
+												style="font-size: 12px; color: #F66495;"></span>
 										</div>
 
 									</div>
@@ -383,12 +611,12 @@
 											<div class="btn-group btn-group-justified" role="group"
 												aria-label="...">
 												<div class="btn-group" role="group">
-													<button type="button" class="btn btn-info">
+													<button id="yzBtn" type="button" class="btn btn-info">
 														<span class="glyphicon glyphicon-log-in"></span>&nbsp;登录
 													</button>
 												</div>
 												<div class="btn-group" role="group">
-													<button type="button" class="btn btn btn-danger">
+													<button id="forgetT" type="button" class="btn btn btn-danger">
 														<span class="glyphicon glyphicon-edit"></span>忘记密码
 													</button>
 												</div>

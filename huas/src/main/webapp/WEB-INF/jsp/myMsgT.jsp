@@ -10,6 +10,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8" />
 <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
 <title>个人信息管理</title>
 
@@ -36,6 +37,7 @@
 	href="${ctx }/res/txjsandcss/css/font-awesome.min.css">
 <!-- 引入头像裁剪框所需的js -->
 <script src="${ctx }/res/txjsandcss/head/cropper.js"></script>
+<script src="${ctx }/res/js/html2canvas.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="${ctx }/res/txjsandcss/head/sitelogo.js"></script>
 <script>
 $(function() {
@@ -141,16 +143,25 @@ $(function() {
 	 })
 	
 
+	 $("#excel_file").change(function(){
+		 
+			$("#QueryForm").submit();
+	 })
+	 
 	 
 	 $("#createTx").click(function(){
 		 
-		// 打开模态框
-			$('#avatar-modal').modal(
-					'show')
+		 $("#excel_file").trigger("click");
+		 
+		 
+		// 打开模态框excel_file
+		//	$('#avatar-modal').modal(
+			//		'show')
 		
 		 
 	 })
-	 
+
+
 
 	
 	//关闭禁用
@@ -174,6 +185,23 @@ $(function() {
 		$("#search_condition_dep").attr("disabled",true);
 		
 	})
+	//用户绑定操作开始	
+	$("#phoneSpanBtn").click(function(){
+ 
+		
+   window.location.href="/user/manager/bind";		
+		
+		
+	})
+	
+	$("#emailSpanBtn").click(function(){
+ 
+		
+   window.location.href="/user/manager/bind";		
+		
+		
+	})
+	
 	
 	
 })
@@ -219,12 +247,12 @@ $(function() {
 								<li class="dropdown"><a href="#" class="dropdown-toggle"
 									data-toggle="dropdown" role="button" aria-haspopup="true"
 									aria-expanded="false"> <img
-										src="${ctx }/res/img/UserImg/${session_user.img}" height="22"
+										src="/image/${session_user.img}" height="22"
 										width="22" class="img-circle "><span class="caret"></span></a>
 									<ul class="dropdown-menu">
 										<li><a href="${ctx }/user/manager/index">个人中心</a></li>
 										<li role="separator" class="divider"></li>
-										<li><a href="#">放松一下</a></li>
+										<li><a  href="${ctx }/user/manager/music" target="_Blank">放松一下</a></li>
 										<li role="separator" class="divider"></li>
 										<li><a href="${ctx }/user/loginOut">退出</a></li>
 									</ul></li>
@@ -260,13 +288,23 @@ $(function() {
 
 				<div class="row">
 					<div class="list-group">
-						<a href="#" class="list-group-item list-group-item-success ">个人资料</a>
+						<a href="${ctx }/user/manager/index" class="list-group-item list-group-item-success ">个人资料</a>
 
 
+            
 
-						<a href="#" class="list-group-item disabled">管理员</a>
-
-
+                                 <c:choose>
+									<c:when test="${session_user.level==2 }">
+									<a href="#" class="list-group-item disabled">管理员</a>
+									<!--	<a href="#" class="list-group-item disabled">学院管理</a> -->
+								
+									</c:when>
+									<c:otherwise>
+									<a href="${ctx }/user/admin/index" class="list-group-item ">管理员</a>
+									<!--   <a href="${ctx }/user/admin/index/dep"  class="list-group-item ">学院管理</a> -->
+    	                         
+									</c:otherwise>
+								</c:choose>        
 
 
 					</div>
@@ -306,7 +344,7 @@ $(function() {
 						<div class=" row">
 							<div class=" col-md-2">
 								<div class="row" style="margin-left: 7px">
-									<img src="${ctx }/res/img/UserImg/${session_user.img}"
+									<img src="/image/${session_user.img}"
 										height="80" width="80" class="img-circle ">
 								</div>
 								<div class="row " style="margin-left: 16px; margin-top: 8px;">
@@ -317,7 +355,7 @@ $(function() {
 								<!--第一行-->
 								<div class="row">
 									<div class="col-md-4">
-										<span style="color: #999999; font-size: 14px">ID:&nbspadmin</span>
+										<span style="color: #999999; font-size: 14px">ID:&nbsp${session_user.loginName}</span>
 									</div>
 
 
@@ -325,13 +363,34 @@ $(function() {
 
 								</div>
 								<div class="row" style="margin-top: 8px;">
-									<div class="col-md-3">
-										<span style="color: #999999; font-size: 14px">手机号:<a
-											href="#">绑定手机号</a></span>
+									<div class="col-md-4">
+									
+										<c:choose>
+											<c:when test="${not empty session_user.phone}">
+												<span style="color: #999999; font-size: 14px">手机号:<font>${session_user.phone}</font></span>
+											</c:when>
+											<c:otherwise>
+												<span style="color: #999999; font-size: 14px">手机号:<span id="phoneSpanBtn"
+											style="cursor: pointer;color:#3399EA;font-size:13px;">绑定手机号</span></span>
+
+											</c:otherwise>
+										</c:choose>
+								
 									</div>
 									<div class="col-md-4">
-										<span style="color: #999999; font-size: 14px">邮箱:<a
-											href="#">绑定邮箱</a></span>
+									
+									<c:choose>
+											<c:when test="${not empty session_user.email}">
+												<span style="color: #999999; font-size: 14px">邮箱:<font>${session_user.email}</font></span>
+											</c:when>
+											<c:otherwise>
+
+								 <span style="color: #999999; font-size: 14px">邮箱:<span id="emailSpanBtn"
+											style="cursor: pointer;color:#3399EA;font-size:13px;">绑定邮箱</span></span>
+
+											</c:otherwise>
+									</c:choose>
+								
 									</div>
 								</div>
 								<div class="row">
@@ -339,8 +398,12 @@ $(function() {
 										<span style="color: #999999; font-size: 14px">座右铭:&nbsp${session_user.signature}</span>
 									</div>
 								</div>
+						
+						
+						
+						
 								<div class="row"
-									style="margin-top:0px;>
+		                         style="margin-top:0px;">
 	<div class="col-md-12" style="margin-top:30px;">
 	<hr>
 	</div>
@@ -424,7 +487,7 @@ $(function() {
 		     	<div class="col-md-3"style="margin-left:-21px;">
 					<span style="color:#999999;"> 座 &nbsp右&nbsp铭:</span >
 				</div>
-				<div class="col-md-5" style="margin-left:-50px;">
+				<div class="col-md-5" style="margin-left:-55px;">
 				<label id="name">
 				
 				   <textarea class="form-control" id="signature" name="signature"  rows="5" cols="60" disabled   >${session_user.signature}</textarea>
@@ -454,9 +517,7 @@ $(function() {
 		</form>
 	 
 	 
-	 
-	
-	
+
 	
 	
 	</div>
@@ -482,13 +543,13 @@ $(function() {
 
 
 <!--绑定操作模态框开始-->
+  
 
-<!-- Modal -->
-<div class="modal fade " id="myModal" tabindex="-1" role="dialog"  data-target="#identifier"  aria-labelledby="myModalLabel" data-backdrop="false" aria-hidden="true">
-	<div class="modal-dialog" style="width:400px;height:200px">
-		<div class="modal-content" >
-				<div class="modal-body" >	
-				    <form class="form-horizontal" method="post"
+			
+<div class="modal fade" id="myModal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+					    <form class="form-horizontal" method="post"
 			action="/taobao/identity/login.action"role="form" style="margin-left:100px;">
 			
 			
@@ -515,8 +576,7 @@ $(function() {
 	
 			</div>
 
-	
-	
+
 
 
 			<div class="form-group">
@@ -561,93 +621,54 @@ $(function() {
 				</div>
 			</div>
 		</form>
-					
-		        </div>
 			
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
-</div><!-- /.modal 
+
+		</div>
+	</div>
+</div>
+
+
 <!--绑定操作模态框结束-->
 
 
 
-  
+
+<!--头像模态框开始-->
+		
 <!--头像模态框开始-->
 		
 			
 <div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
-		<form class="avatar-form" action="upload-logo.php" enctype="multipart/form-data" method="post">
-			
-				<div class="modal-header">
-					<button class="close" data-dismiss="modal" type="button">&times;</button>
-					<h4 class="modal-title" id="avatar-modal-label">上传图片</h4>
-				</div>
-				<div class="modal-body">
-					<div class="avatar-body">
-						<div class="avatar-upload">
-							<input class="avatar-src" name="avatar_src" type="hidden">
-							<input class="avatar-data" name="avatar_data" type="hidden">
-							<label for="avatarInput" style="line-height: 35px;">图片上传</label>
-							<button class="btn btn-info"  type="button" style="height: 35px;" onClick="$('input[id=avatarInput]').click();">请选择图片</button>
-							<span id="avatar-name"></span>
-							<input class="avatar-input hide" id="avatarInput" name="avatar_file" type="file"></div>
+						<form id="QueryForm" action="${ctx}/user/manager/fileUpload"
+						method="post" enctype="multipart/form-data">
 						<div class="row">
-							<div class="col-md-9">
-								<div class="avatar-wrapper"></div>
-							</div>
-							<div class="col-md-3">
-								<div class="avatar-preview preview-lg" id="imageHead"></div>
-								<!--<div class="avatar-preview preview-md"></div>
-						<div class="avatar-preview preview-sm"></div>-->
-							</div>
-						</div>
-						<div class="row avatar-btns">
-							<div class="col-md-4">
-								<div class="btn-group">
-									<button class="btn btn-info fa fa-undo" data-method="rotate" data-option="-90" type="button" title="Rotate -90 degrees"> 向左旋转</button>
-								</div>
-								<div class="btn-group">
-									<button class="btn  btn-info fa fa-repeat" data-method="rotate" data-option="90" type="button" title="Rotate 90 degrees"> 向右旋转</button>
+							<div class="col-sm-3" style="width: 78%;">
+								<div class="box box-primary">
+									<div class="box-header with-border">
+
+										<div class="box-body">
+											<input id="excel_file" class="form-control" type="file"
+												name="filename"  size="80" />
+										</div>
+									</div>
+
+
+
 								</div>
 							</div>
-							<div class="col-md-5" style="text-align: right;">								
-								<button class="btn btn-info fa fa-arrows" data-method="setDragMode" data-option="move" type="button" title="移动">
-								<span class="docs-tooltip" data-toggle="tooltip" title="" data-original-title="$().cropper(&quot;setDragMode&quot;, &quot;move&quot;)">
-								</span>
-							  </button>
-							  <button type="button" class="btn btn-info fa fa-search-plus" data-method="zoom" data-option="0.1" title="放大图片">
-								<span class="docs-tooltip" data-toggle="tooltip" title="" data-original-title="$().cropper(&quot;zoom&quot;, 0.1)">
-								  <!--<span class="fa fa-search-plus"></span>-->
-								</span>
-							  </button>
-							  <button type="button" class="btn btn-info fa fa-search-minus" data-method="zoom" data-option="-0.1" title="缩小图片">
-								<span class="docs-tooltip" data-toggle="tooltip" title="" data-original-title="$().cropper(&quot;zoom&quot;, -0.1)">
-								  <!--<span class="fa fa-search-minus"></span>-->
-								</span>
-							  </button>
-							  <button type="button" class="btn btn-info fa fa-refresh" data-method="reset" title="重置图片">
-									<span class="docs-tooltip" data-toggle="tooltip" title="" data-original-title="$().cropper(&quot;reset&quot;)" aria-describedby="tooltip866214">
-							   </button>
-							</div>
-							<div class="col-md-3">
-								<button class="btn btn-info btn-block avatar-save fa fa-save" type="button" data-dismiss="modal"> 保存修改</button>
-							</div>
+
 						</div>
-					</div>
-				</div>
-			</form>
+					</form>
+					
+					
+					
 		</div>
 	</div>
 </div>
 <!--头像模态框结束-->	
 
-<script>
-	
-
-</script>
- 
 
 
 

@@ -14,7 +14,12 @@ public class ConstantUtils{
 	public static final String SESSION_USER = "session_user";
 	//登录页面Cookie名字
 	public static final String LOGIN_COOKIE = "loginCookie"; 
-	
+	//保存头像的uuid
+	public static final String USER_IMG_UUID = "userImgeUuid";
+	//邮件验证码
+	public static final String EMAIL_YZM = "emailYzm";
+	//短信验证码
+	public static final String NOTE_YZM = "note";
 	
 	//获取request
 	public static HttpServletRequest getRequest() {
