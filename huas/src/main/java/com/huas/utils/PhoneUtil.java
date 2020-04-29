@@ -12,7 +12,7 @@ public static void sendPhoneMsg(String code,String phoneNumber){
 	 String host = "https://zwp.market.alicloudapi.com";
 	    String path = "/sms/sendv2";
 	    String method = "GET";
-	    String appcode = "25e9ae017b4a49ce80749f634518f843";
+	    String appcode = "25e9ae017b4a49ce43";//删了一坨字母
 	    Map<String, String> headers = new HashMap<String, String>();
 	    //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
 	    headers.put("Authorization", "APPCODE " + appcode);
@@ -45,7 +45,7 @@ public static void sendPhoneMsgBycreatePwd(String loginName,String pwd,String ph
 	 String host = "https://zwp.market.alicloudapi.com";
 	    String path = "/sms/sendv2";
 	    String method = "GET";
-	    String appcode = "25e9ae017b4a49ce80749f634518f843";
+	    String appcode = "25e9ae017b4a49ce80749f634518f4";//删了2个字母
 	    Map<String, String> headers = new HashMap<String, String>();
 	    //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
 	    headers.put("Authorization", "APPCODE " + appcode);
